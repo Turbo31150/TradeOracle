@@ -95,6 +95,23 @@ def _init_tables(conn):
 
         CREATE INDEX IF NOT EXISTS idx_pa_run ON pipeline_analyses(run_id);
         CREATE INDEX IF NOT EXISTS idx_pa_symbol ON pipeline_analyses(symbol);
+
+        CREATE TABLE IF NOT EXISTS ai_votes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            run_id INTEGER REFERENCES pipeline_runs(id),
+            symbol TEXT NOT NULL,
+            model_name TEXT,
+            model_id TEXT,
+            direction TEXT,
+            confidence INTEGER,
+            reason TEXT,
+            elapsed_ms INTEGER,
+            status TEXT,
+            timestamp TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_av_run ON ai_votes(run_id);
+        CREATE INDEX IF NOT EXISTS idx_av_symbol ON ai_votes(symbol);
     """)
     conn.commit()
 
@@ -239,6 +256,23 @@ def get_pipeline_runs(limit: int = 5) -> List[Dict]:
         result.append(rd)
     conn.close()
     return result
+
+
+def save_ai_votes(run_id: int, symbol: str, votes: List[Dict]):
+    """Save AI consensus votes to database"""
+    conn = _get_connection()
+    for v in votes:
+        conn.execute(
+            """INSERT INTO ai_votes (run_id, symbol, model_name, model_id,
+               direction, confidence, reason, elapsed_ms, status)
+               VALUES (?,?,?,?,?,?,?,?,?)""",
+            (run_id, symbol, v.get('name'), v.get('model'),
+             v.get('direction'), v.get('confidence'),
+             v.get('reason', '')[:500], v.get('elapsed_ms', 0),
+             v.get('status', 'UNKNOWN'))
+        )
+    conn.commit()
+    conn.close()
 
 
 def get_signal_stats() -> Dict:

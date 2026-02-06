@@ -17,8 +17,9 @@ from config.settings import (
 )
 from database.signals_db import (
     create_pipeline_run, save_pipeline_analysis, complete_pipeline_run,
-    save_signal
+    save_signal, save_ai_votes
 )
+from pipeline.ai_consensus import run_ai_consensus
 from tools.market_scanner import _fetch_mexc_tickers, _fetch_klines
 from tools.technical_analysis import (
     _fetch_ohlcv, _full_analysis, _rsi, _ema, _atr
@@ -26,10 +27,11 @@ from tools.technical_analysis import (
 
 # === WEIGHTS ===
 WEIGHTS = {
-    "scan_score": 0.30,
-    "technical_score": 0.40,
-    "regime_bonus": 0.15,
-    "mtf_alignment": 0.15,
+    "scan_score": 0.20,
+    "technical_score": 0.30,
+    "regime_bonus": 0.10,
+    "mtf_alignment": 0.10,
+    "ai_consensus": 0.30,   # 4 AI models vote
 }
 
 
@@ -150,6 +152,19 @@ def _send_telegram(message: str) -> bool:
 def _format_alert(symbol: str, data: Dict) -> str:
     """Format HTML alert for Telegram"""
     direction_emoji = "🟢" if data['direction'] == "LONG" else "🔴"
+
+    # AI consensus info
+    ai = data.get('ai_consensus', {})
+    ai_votes = ai.get('votes', {})
+    ai_details = ai.get('details', [])
+    ai_line = ""
+    if ai_details:
+        vote_parts = []
+        for v in ai_details:
+            icon = "✅" if v['status'] == 'OK' else "❌"
+            vote_parts.append(f"{icon}{v['name']}: {v['direction']}")
+        ai_line = f"\n<b>AI Votes:</b> {' | '.join(vote_parts)}\n"
+
     return (
         f"{direction_emoji} <b>TradeOracle Signal</b>\n"
         f"━━━━━━━━━━━━━━━\n"
@@ -162,8 +177,9 @@ def _format_alert(symbol: str, data: Dict) -> str:
         f"SL: <code>${data['sl']:.6g}</code>\n\n"
         f"RSI: {data['rsi']:.1f} | EMA: {data['ema_status']}\n"
         f"Regime: {data.get('regime', 'N/A')}\n"
+        f"{ai_line}"
         f"━━━━━━━━━━━━━━━\n"
-        f"<i>Domino Pipeline v1.0</i>"
+        f"<i>Domino Pipeline v2.0 (5 AI)</i>"
     )
 
 
@@ -311,12 +327,37 @@ def run_domino(min_score: int = 70, top_n: int = 5,
             # Regime adjustment
             reg_adj = _regime_adjustment(regime, regime_bias, ta["direction"])
 
-            # Weighted score
+            # === STEP 3.5: AI CONSENSUS (3 LM Studio + Gemini) ===
+            ai_data = {
+                'price': ta['price'], 'rsi': ta['rsi'],
+                'macd_histogram': ta['macd']['histogram'],
+                'ema_status': ta['ema_status'], 'obv_trend': ta['obv_trend'],
+                'bb_squeeze': ta['bollinger']['in_squeeze'],
+                'stoch_k': ta['stochastic']['k'],
+                'scan_score': sym_data['scan_score'],
+                'technical_score': ta['composite_score'],
+                'regime': regime,
+            }
+            consensus = run_ai_consensus(symbol, ai_data, timeout=45)
+            ai_score = consensus["consensus_confidence"]
+
+            # Save AI votes to DB
+            save_ai_votes(run_id, symbol, consensus.get("details", []))
+
+            # Override direction if AI consensus is strong and disagrees
+            ai_dir = consensus["consensus_direction"]
+            if consensus["models_ok"] >= 3 and ai_score >= 70 and ai_dir != "NEUTRAL":
+                final_direction = ai_dir
+            else:
+                final_direction = ta["direction"]
+
+            # Weighted score with AI consensus
             weighted = (
                 sym_data['scan_score'] * WEIGHTS["scan_score"]
                 + ta["composite_score"] * WEIGHTS["technical_score"]
                 + reg_adj * WEIGHTS["regime_bonus"]
                 + mtf["bonus"] * WEIGHTS["mtf_alignment"]
+                + ai_score * WEIGHTS["ai_consensus"]
             )
             weighted = max(0, min(100, weighted))
 
@@ -338,7 +379,7 @@ def run_domino(min_score: int = 70, top_n: int = 5,
                 'technical_score': ta['composite_score'],
                 'regime_adjustment': reg_adj,
                 'weighted_score': weighted,
-                'direction': ta['direction'],
+                'direction': final_direction,
                 'entry_price': ta['entry'],
                 'tp1': ta['tp1'],
                 'tp2': ta['tp2'],
@@ -348,6 +389,7 @@ def run_domino(min_score: int = 70, top_n: int = 5,
                 'promoted_to_signal': 0,
                 'regime': regime,
                 'mtf': mtf,
+                'ai_consensus': consensus,
             }
             analyses.append(analysis)
 
@@ -414,9 +456,13 @@ def run_domino(min_score: int = 70, top_n: int = 5,
                     "entry": p['entry_price'],
                     "tp1": p['tp1'], "tp2": p['tp2'], "tp3": p['tp3'],
                     "sl": p['sl'],
+                    "ai_consensus": p.get('ai_consensus', {}).get('consensus_direction', 'N/A'),
+                    "ai_confidence": p.get('ai_consensus', {}).get('consensus_confidence', 0),
+                    "ai_votes": p.get('ai_consensus', {}).get('votes', {}),
                 }
                 for p in promoted
             ],
+            "ai_models_used": len(analyses[0]['ai_consensus']['details']) if analyses and 'ai_consensus' in analyses[0] else 0,
             "alerts_sent": alerts_sent,
             "duration_ms": duration_ms,
         }

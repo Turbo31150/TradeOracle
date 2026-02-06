@@ -1,9 +1,11 @@
 """
-TradeOracle - Gemini 3 Agent
+TradeOracle - Gemini 3 Agent (Hardened)
 LangChain Agent powered by Gemini with Function Calling + Thinking
 The brain of the autonomous trading oracle.
+Features: Smart Retry with exponential backoff for API rate limits.
 """
 import os
+import time
 from typing import Optional, Dict, Any, List
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -98,6 +100,22 @@ class TradeOracleAgent:
             return "\n".join(parts) if parts else ""
         return str(content) if content else ""
 
+    def _invoke_with_retry(self, messages, max_retries: int = 3):
+        """Invoke LLM with smart retry for 429/503 errors."""
+        for attempt in range(max_retries):
+            try:
+                return self.llm_with_tools.invoke(messages)
+            except Exception as e:
+                err = str(e)
+                if ("429" in err or "503" in err or "quota" in err.lower()
+                        or "resource" in err.lower()):
+                    wait = [2, 5, 10][min(attempt, 2)]
+                    time.sleep(wait)
+                    if attempt == max_retries - 1:
+                        raise
+                else:
+                    raise
+
     def invoke(self, query: str, chat_history: List = None) -> Dict[str, Any]:
         """Run a query through the agent with autonomous tool calling."""
         messages = [SystemMessage(content=SYSTEM_PROMPT)]
@@ -114,7 +132,7 @@ class TradeOracleAgent:
         intermediate_steps = []
 
         for iteration in range(self.max_iterations):
-            response = self.llm_with_tools.invoke(messages)
+            response = self._invoke_with_retry(messages)
             messages.append(response)
 
             # Check if the model wants to call tools

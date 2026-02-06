@@ -1,10 +1,12 @@
 """
-TradeOracle - MCP Server (FastMCP)
+TradeOracle - MCP Server (FastMCP - Hardened)
 Exposes Domino Pipeline + Price + History as MCP tools.
+Features: Graceful degradation, never crashes on API errors.
 """
 import json
 import sys
 import os
+import time
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -31,7 +33,16 @@ def run_trading_pipeline(min_score: int = 70, top_n: int = 5, alert_threshold: i
         top_n: Maximum symbols to deep-analyze. Default 5.
         alert_threshold: Minimum confidence to trigger Telegram alert. Default 75.
     """
-    result = run_domino(min_score=min_score, top_n=top_n, alert_threshold=alert_threshold)
+    # Smart retry: if pipeline fails on transient error, retry once
+    for attempt in range(2):
+        result = run_domino(min_score=min_score, top_n=top_n, alert_threshold=alert_threshold)
+        if result.get("status") != "FAILED" or attempt == 1:
+            break
+        err = result.get("error", "")
+        if "429" in err or "503" in err or "timeout" in err.lower():
+            time.sleep(3)
+        else:
+            break
 
     if result.get("error"):
         return f"Pipeline FAILED: {result['error']}"
