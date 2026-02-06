@@ -83,6 +83,21 @@ class TradeOracleAgent:
         self.tools_map = {t.name: t for t in ALL_TOOLS}
         self.max_iterations = 10
 
+    @staticmethod
+    def _extract_text(content) -> str:
+        """Extract text from Gemini response content (handles str or list of blocks)."""
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts = []
+            for block in content:
+                if isinstance(block, dict) and block.get("type") == "text":
+                    parts.append(block["text"])
+                elif isinstance(block, str):
+                    parts.append(block)
+            return "\n".join(parts) if parts else ""
+        return str(content) if content else ""
+
     def invoke(self, query: str, chat_history: List = None) -> Dict[str, Any]:
         """Run a query through the agent with autonomous tool calling."""
         messages = [SystemMessage(content=SYSTEM_PROMPT)]
@@ -106,7 +121,7 @@ class TradeOracleAgent:
             if not response.tool_calls:
                 # No more tool calls - return final response
                 return {
-                    "output": response.content or "Analysis complete.",
+                    "output": self._extract_text(response.content) or "Analysis complete.",
                     "intermediate_steps": intermediate_steps,
                     "success": True,
                     "iterations": iteration + 1,
@@ -141,7 +156,7 @@ class TradeOracleAgent:
 
         # Max iterations reached
         return {
-            "output": "Maximum analysis depth reached. " + (response.content or ""),
+            "output": "Maximum analysis depth reached. " + self._extract_text(response.content),
             "intermediate_steps": intermediate_steps,
             "success": True,
             "iterations": self.max_iterations,
