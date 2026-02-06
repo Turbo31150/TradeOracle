@@ -1,5 +1,6 @@
 """
 TradeOracle - Market Scanner Tools
+Extracted from Trading AI Ultimate MCP v3.7
 Scans 850+ MEXC Futures contracts with composite scoring
 """
 import json

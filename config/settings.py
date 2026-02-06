@@ -38,5 +38,10 @@ SCANNER_CONFIG = {
     "max_signals": 15,
 }
 
+# LM Studio Cluster (Phase 2)
+LM_STUDIO_M1_URL = os.getenv("LM_STUDIO_M1_URL", "http://192.168.1.85:1234")
+LM_STUDIO_M2_URL = os.getenv("LM_STUDIO_M2_URL", "http://192.168.1.26:1234")
+LM_STUDIO_M3_URL = os.getenv("LM_STUDIO_M3_URL", "http://192.168.1.113:1234")
+
 # Database
 DB_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "database", "tradeoracle.db")

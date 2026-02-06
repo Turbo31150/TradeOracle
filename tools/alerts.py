@@ -1,5 +1,6 @@
 """
 TradeOracle - Telegram Alert Tools
+Extracted from Trading MCP Ultimate v3.7
 """
 import json
 import urllib.request

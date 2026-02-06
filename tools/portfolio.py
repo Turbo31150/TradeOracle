@@ -1,5 +1,6 @@
 """
 TradeOracle - Portfolio & Position Management Tools
+Extracted from Trading MCP Ultimate v3.7
 MEXC Futures position tracking + margin health
 """
 import json

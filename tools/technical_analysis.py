@@ -1,5 +1,6 @@
 """
 TradeOracle - Technical Analysis Tools
+Extracted from Symbiose Indicators v9.0 + Trading MCP Ultimate v3.7
 RSI, MACD, ATR, Bollinger, Fibonacci, Pattern Detection
 """
 import json
