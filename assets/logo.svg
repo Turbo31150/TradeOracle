@@ -1,0 +1,69 @@
+<svg viewBox="0 0 520 160" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','Fira Code',monospace">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#050B0A"/>
+      <stop offset="100%" stop-color="#0A1410"/>
+    </linearGradient>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00FF88"/>
+      <stop offset="100%" stop-color="#00D4A0"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="100%" stop-color="#FF8C00"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="520" height="160" rx="14" fill="url(#bg)"/>
+  <rect width="520" height="160" rx="14" fill="none" stroke="#00FF88" stroke-width="1" stroke-opacity="0.3"/>
+
+  <!-- Chart icon -->
+  <g transform="translate(22, 18)" filter="url(#glow)">
+    <rect x="4" y="4" width="108" height="108" rx="12" fill="none" stroke="#00FF88" stroke-width="1.5" stroke-opacity="0.3"/>
+    <!-- Candlesticks -->
+    <rect x="18"  y="60" width="9" height="35" rx="2" fill="#FF4444" fill-opacity="0.85"/>
+    <line x1="22.5" y1="50" x2="22.5" y2="60" stroke="#FF4444" stroke-width="1.5"/>
+    <line x1="22.5" y1="95" x2="22.5" y2="103" stroke="#FF4444" stroke-width="1.5"/>
+
+    <rect x="34" y="45" width="9" height="30" rx="2" fill="#00FF88" fill-opacity="0.85"/>
+    <line x1="38.5" y1="36" x2="38.5" y2="45" stroke="#00FF88" stroke-width="1.5"/>
+    <line x1="38.5" y1="75" x2="38.5" y2="84" stroke="#00FF88" stroke-width="1.5"/>
+
+    <rect x="50"  y="30" width="9" height="40" rx="2" fill="#00FF88" fill-opacity="0.85"/>
+    <line x1="54.5" y1="22" x2="54.5" y2="30" stroke="#00FF88" stroke-width="1.5"/>
+    <line x1="54.5" y1="70" x2="54.5" y2="78" stroke="#00FF88" stroke-width="1.5"/>
+
+    <rect x="66"  y="50" width="9" height="28" rx="2" fill="#FF4444" fill-opacity="0.85"/>
+    <line x1="70.5" y1="40" x2="70.5" y2="50" stroke="#FF4444" stroke-width="1.5"/>
+    <line x1="70.5" y1="78" x2="70.5" y2="86" stroke="#FF4444" stroke-width="1.5"/>
+
+    <rect x="82"  y="22" width="9" height="45" rx="2" fill="#00FF88" fill-opacity="0.85"/>
+    <line x1="86.5" y1="14" x2="86.5" y2="22" stroke="#00FF88" stroke-width="1.5"/>
+    <line x1="86.5" y1="67" x2="86.5" y2="75" stroke="#00FF88" stroke-width="1.5"/>
+
+    <!-- Trend line -->
+    <polyline points="22,95 38,68 54,52 70,72 86,45" fill="none" stroke="#FFD700" stroke-width="1.5" stroke-opacity="0.7" stroke-dasharray="3 2"/>
+  </g>
+
+  <!-- Title -->
+  <text x="156" y="56" fill="url(#g1)" font-size="30" font-weight="800" letter-spacing="-0.5" filter="url(#glow)">TRADEORACLE·AI</text>
+  <text x="157" y="81" fill="#5A7A6A" font-size="13" letter-spacing="0.5">Autonomous Crypto Trading Intelligence</text>
+  <rect x="156" y="91" width="340" height="1.5" rx="1" fill="url(#g1)" opacity="0.35"/>
+
+  <g transform="translate(156, 105)">
+    <rect x="0"   y="0" width="58" height="22" rx="5" fill="#00FF88" fill-opacity="0.1" stroke="#00FF88" stroke-width="0.7" stroke-opacity="0.5"/>
+    <text x="29"  y="15" text-anchor="middle" fill="#00FF88" font-size="10">Python</text>
+    <rect x="64"  y="0" width="66" height="22" rx="5" fill="#FFD700" fill-opacity="0.1" stroke="#FFD700" stroke-width="0.7" stroke-opacity="0.5"/>
+    <text x="97"  y="15" text-anchor="middle" fill="#FFD700" font-size="10">Gemini API</text>
+    <rect x="136" y="0" width="48" height="22" rx="5" fill="#00D4A0" fill-opacity="0.1" stroke="#00D4A0" stroke-width="0.7" stroke-opacity="0.5"/>
+    <text x="160" y="15" text-anchor="middle" fill="#00D4A0" font-size="10">MEXC</text>
+    <rect x="190" y="0" width="42" height="22" rx="5" fill="#FF8C00" fill-opacity="0.1" stroke="#FF8C00" stroke-width="0.7" stroke-opacity="0.5"/>
+    <text x="211" y="15" text-anchor="middle" fill="#FF8C00" font-size="10">MCP</text>
+  </g>
+
+  <text x="156" y="149" fill="#3A5A4A" font-size="10">Turbo31150  ·  MIT  ·  800+ futures pairs  ·  Domino Pipeline  ·  multi-AI consensus</text>
+</svg>
