@@ -1,13 +1,12 @@
 # Contributing
 
-Python 3.11+ required.
+## Guidelines
 
-```bash
-git clone https://github.com/Turbo31150/TradeOracle
-cd TradeOracle && pip install -r requirements.txt
-cp .env.example .env
-```
+**Python**: PEP 8, type hints, docstrings.
+**JavaScript/TypeScript**: ESLint, Conventional commits.
 
-Commit format: feat|fix|docs|chore: description
+**Commits**: `feat:` `fix:` `docs:` `chore:`
 
-Open a PR against main.
+## Contact
+
+Franc Delmas · [github.com/Turbo31150](https://github.com/Turbo31150) · Toulouse
