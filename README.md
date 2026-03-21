@@ -2,6 +2,7 @@
   <img src="assets/logo.svg" alt="TRADEORACLE·AI" width="520"/>
   <br/><br/>
 
+  [![CI](https://github.com/Turbo31150/TradeOracle/actions/workflows/ci.yml/badge.svg)](https://github.com/Turbo31150/TradeOracle/actions/workflows/ci.yml)
   [![License: MIT](https://img.shields.io/badge/License-MIT-00FF88?style=flat-square)](LICENSE)
   [![Python](https://img.shields.io/badge/Python-3.11+-FFD700?style=flat-square&logo=python&logoColor=black)](https://python.org)
   [![Gemini](https://img.shields.io/badge/Gemini-3-4285F4?style=flat-square&logo=google&logoColor=white)](#)
