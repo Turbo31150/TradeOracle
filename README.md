@@ -262,3 +262,15 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
   <br/><br/>
   <em>TRADEORACLE AI &mdash; Autonomous Crypto Trading Intelligence</em>
 </div>
+
+---
+
+<div align="center">
+
+**If you find this project useful, please consider giving it a star!** ⭐
+
+It helps others discover this project and motivates continued development.
+
+[![Star](https://img.shields.io/github/stars/Turbo31150/TradeOracle?style=social)](https://github.com/Turbo31150/TradeOracle)
+
+</div>
