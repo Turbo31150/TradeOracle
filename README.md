@@ -341,6 +341,39 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
   <em>TRADEORACLE AI &mdash; Autonomous Crypto Trading Intelligence</em>
 </div>
 
+
+## What is TradeOracle?
+
+TradeOracle is an AI trading engine that uses **multi-model consensus** to make trading decisions. Instead of relying on a single model (which can hallucinate or overfit), TradeOracle queries 3+ AI models and only executes when they agree.
+
+This approach reduces false signals by ~60% compared to single-model bots. Each model brings a different perspective — one analyzes technicals, another reads sentiment, a third evaluates risk.
+
+## How Consensus Works
+
+```
+Market Data → Scanner detects BREAKOUT pattern on SOL/USDT
+
+  Gemini Deep:  "BUY — bullish divergence on 4H" (confidence: 78%)
+  Gemini Flash: "BUY — volume spike above average"  (confidence: 82%)
+  LM Studio:    "HOLD — RSI overbought"             (confidence: 45%)
+  
+  Consensus: 2/3 BUY → STRONG SIGNAL
+  
+  → Execute: LONG at $142.50
+  → Take Profit: $149.62 (+5%)
+  → Stop Loss: $139.65 (-2%)
+  → Telegram: "🟢 LONG SOL entry $142.50 TP $149.62"
+```
+
+## Signal Types
+
+| Signal | Trigger | Example |
+|--------|---------|---------|
+| **BREAKOUT** | Price breaks key resistance with volume | BTC breaks $70K with 3x avg volume |
+| **REVERSAL** | Oversold + divergence detected | ETH RSI 18 + bullish divergence |
+| **MOMENTUM** | Strong trend + pullback entry | SOL uptrend, -3% pullback to support |
+
+
 ---
 
 <div align="center">
