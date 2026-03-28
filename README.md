@@ -5,6 +5,7 @@
   [![CI](https://github.com/Turbo31150/TradeOracle/actions/workflows/ci.yml/badge.svg)](https://github.com/Turbo31150/TradeOracle/actions/workflows/ci.yml)
   [![License: MIT](https://img.shields.io/badge/License-MIT-00FF88?style=flat-square)](LICENSE)
   [![Python](https://img.shields.io/badge/Python-3.11+-FFD700?style=flat-square&logo=python&logoColor=black)](https://python.org)
+  [![Stars](https://img.shields.io/github/stars/Turbo31150/TradeOracle?style=flat-square&color=FFD700)](https://github.com/Turbo31150/TradeOracle/stargazers)
   [![Gemini](https://img.shields.io/badge/Gemini_3-Google_AI-4285F4?style=flat-square&logo=google&logoColor=white)](#domino-pipeline)
   [![MEXC](https://img.shields.io/badge/MEXC-800%2B_futures-00FF88?style=flat-square)](#signal-types)
   [![LangChain](https://img.shields.io/badge/LangChain-agent_framework-1C3C3C?style=flat-square)](#)
@@ -12,7 +13,7 @@
   [![FastAPI](https://img.shields.io/badge/FastAPI-WebSocket-009688?style=flat-square&logo=fastapi&logoColor=white)](#api)
 
   <br/>
-  <h3>Autonomous Crypto Trading Agent &mdash; Gemini 3 &bull; Multi-AI Consensus &bull; 800+ MEXC Futures</h3>
+  <h3>Multi-model AI consensus engine for crypto futures trading</h3>
   <p><em>End-to-end algorithmic trading: scan, analyze with multi-AI consensus, execute with automated TP/SL &mdash; zero human intervention required.</em></p>
 
   <br/>
@@ -27,6 +28,71 @@
 **TRADEORACLE AI** is an autonomous crypto trading agent powered by **Google Gemini 3**. It continuously scans **800+ MEXC futures contracts**, generates trading signals through a proprietary **Domino Pipeline** with multi-AI consensus voting, and executes trades with fully automated take-profit and stop-loss management.
 
 Built for the **Google Cloud Agent Development Kit** hackathon, it demonstrates how an AI agent can manage a complete trading strategy &mdash; from signal detection to order execution &mdash; without human intervention.
+
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/Turbo31150/TradeOracle.git && cd TradeOracle
+pip install -r requirements.txt
+cp .env.example .env && python entrypoint.py
+```
+
+---
+
+## Architecture
+
+```mermaid
+flowchart TD
+    subgraph Data["Market Data"]
+        MEXC["MEXC Futures API\n800+ pairs"]
+    end
+
+    subgraph Scanner["Scanner Module"]
+        IND["ATR / Volume / RSI\nBollinger / FVG / Momentum"]
+    end
+
+    subgraph Consensus["Domino Pipeline — Multi-AI Consensus"]
+        G1["Gemini 3.0 Deep\nweight: 1.3"]
+        G2["Gemini Flash\nweight: 1.0"]
+        LM["LM Studio Local\nweight: 0.8"]
+        VOTE["Consensus Vote"]
+    end
+
+    subgraph Execution["Trade Execution"]
+        STRONG["STRONG 2+\nImmediate"]
+        NORMAL["NORMAL 1\nStandard"]
+        SKIP["SKIP 0\nNo action"]
+    end
+
+    subgraph Risk["Risk Management"]
+        TPSL["TP/SL Manager\nTP1 +1.5% | TP2 +3% | TP3 +7%\nSL -1.2%"]
+    end
+
+    ALERT["Telegram Alert"]
+
+    MEXC -->|every 30s| IND
+    IND -->|score > 70| G1 & G2 & LM
+    G1 & G2 & LM --> VOTE
+    VOTE --> STRONG & NORMAL & SKIP
+    STRONG --> TPSL
+    NORMAL --> TPSL
+    TPSL --> ALERT
+```
+
+---
+
+## Features
+
+| Feature | Description |
+|:--------|:------------|
+| **Multi-Model Consensus** | 3 AI models vote independently (Gemini Deep, Gemini Flash, LM Studio) with weighted scoring |
+| **Signal Detection** | Breakout, reversal, bounce, momentum, and Fair Value Gap detection across 800+ pairs |
+| **Risk Management** | Automated 3-tier take-profit (1.5% / 3% / 7%) with stop-loss at -1.2%, position sizing |
+| **Telegram Alerts** | Real-time notifications for signals, executions, TP hits, and stop-loss triggers |
+| **MCP Integration** | 40+ tools exposed via Model Context Protocol for Claude Code and external clients |
+| **FastAPI Backend** | WebSocket + REST API for real-time dashboard and programmatic access |
 
 ---
 
@@ -241,6 +307,15 @@ TradeOracle/
     ├── settings.py          # Trading parameters
     └── models_config.py     # AI model configuration
 ```
+
+---
+
+## Related Projects
+
+| Project | Description |
+|:--------|:------------|
+| [jarvis-linux](https://github.com/Turbo31150/turbo) | JARVIS Etoile -- Distributed multi-GPU AI orchestration system powering TradeOracle |
+| [TradeOracle-Nexus-Elastic](https://github.com/Turbo31150/TradeOracle-Nexus-Elastic) | Elasticsearch-based analytics and backtesting extension for TradeOracle |
 
 ---
 
