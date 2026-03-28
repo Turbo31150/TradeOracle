@@ -19,6 +19,9 @@
   <br/>
 
   [Pipeline](#domino-pipeline) &bull; [Signals](#signal-types) &bull; [Scoring](#multi-axis-scoring) &bull; [MCP Server](#mcp-server) &bull; [Installation](#installation) &bull; [Configuration](#configuration)
+
+<img src="assets/jarvis-canva-1.png" alt="TradeOracle" width="800">
+
 </div>
 
 ---
