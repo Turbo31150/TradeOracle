@@ -59,7 +59,7 @@ jobs:
 
     - name: Build Docker image
       if: steps.check_dockerfile.outputs.exists == 'true'
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v7
       with:
         context: .
         push: false
