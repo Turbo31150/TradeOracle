@@ -317,7 +317,7 @@ TradeOracle/
 
 | Project | Description |
 |:--------|:------------|
-| [jarvis-linux](https://github.com/Turbo31150/turbo) | JARVIS Etoile -- Distributed multi-GPU AI orchestration system powering TradeOracle |
+| [jarvis-linux](https://github.com/Turbo31150/jarvis-linux) | JARVIS Etoile -- Distributed multi-GPU AI orchestration system powering TradeOracle |
 | [TradeOracle-Nexus-Elastic](https://github.com/Turbo31150/TradeOracle-Nexus-Elastic) | Elasticsearch-based analytics and backtesting extension for TradeOracle |
 
 ---
@@ -414,7 +414,7 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 
 <div align="center">
   <br/>
-  <strong>Franc Delmas (Turbo31150)</strong> &bull; <a href="https://github.com/Turbo31150">github.com/Turbo31150</a> &bull; Toulouse, France
+  <strong>Franck Delmas (Turbo31150)</strong> &bull; <a href="https://github.com/Turbo31150">github.com/Turbo31150</a> &bull; Toulouse, France
   <br/><br/>
   <em>TRADEORACLE AI &mdash; Autonomous Crypto Trading Intelligence</em>
 </div>
@@ -461,5 +461,28 @@ Market Data → Scanner detects BREAKOUT pattern on SOL/USDT
 It helps others discover this project and motivates continued development.
 
 [![Star](https://img.shields.io/github/stars/Turbo31150/TradeOracle?style=social)](https://github.com/Turbo31150/TradeOracle)
+
+</div>
+
+
+---
+
+<!-- jarvis-author-footer-v1 -->
+
+<div align="center">
+
+### Author
+
+**Franck Delmas** — AI Systems Architect · JARVIS OS Creator · Toulouse, France
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-franckdelmas.dev-00ffd1?style=flat-square)](https://franckdelmas.dev)
+[![GitHub](https://img.shields.io/badge/GitHub-Turbo31150-181717?style=flat-square&logo=github)](https://github.com/Turbo31150)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-franck--hlb-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/franck-hlb-80bb231b1/)
+[![Hire](https://img.shields.io/badge/Status-Open%20to%20work-00ffd1?style=flat-square)](https://github.com/Turbo31150)
+
+*Production-first autodidact · Multi-agent · MCP early adopter · Available for CDI / freelance / consulting.*
+
+Part of the [JARVIS OS](https://github.com/Turbo31150/jarvis-linux) ecosystem ·
+[All 44 public repos](https://github.com/Turbo31150?tab=repositories)
 
 </div>
